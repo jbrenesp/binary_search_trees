@@ -39,6 +39,37 @@ class Tree
       
       return node
   end
+
+  def insert(value)
+    current = @root
+    while current
+      if value == current.data
+        return 
+      elsif value < current.data
+        if current.left.nil?
+          current.left = Node.new(value)
+          return
+        else 
+          current = current.left
+        end
+      else 
+        if current.right.nil?
+          current.right = Node.new(value)
+          return
+        else 
+          current = current.right
+        end
+      end
+    end
+  end
+      
+  
+
+
+
+
+
+
   
   def inorder(node = @root)
     return if node.nil?
@@ -56,20 +87,12 @@ class Tree
 
 end
 
-# Example array
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-
-# Create the tree
+arr = [8, 4, 12]
 tree = Tree.new(arr)
 
-# Print the inorder traversal
-puts "Inorder traversal of the BST:"
-tree.inorder
-puts  # just to add a newline at the end
-puts "Root: #{tree.root.data}"
-puts "Root Left Child: #{tree.root.left.data}"
-puts "Root Right Child: #{tree.root.right.data}"
-tree.inorder
-puts
-tree.pretty_print
+tree.insert(6)
+tree.insert(10)
+tree.insert(14)
+
+tree.pretty_print  # or tree.inorder
 
