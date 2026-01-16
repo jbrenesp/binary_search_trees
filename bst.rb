@@ -61,28 +61,36 @@ class Tree
         end
       end
     end
-
-    def delete(value, node=@root)
-      return nil if node.nil?
-
-      if value < node.data
-        node.left = delete(value, node.left)
-      elsif value > node.data
-        node.right = delete(value, node.right)
-      else
-        
-      end
-      node
-    end
   end
-      
   
+  def min_value_node(node)
+    current = node
+    current = current.left while current.left
+    current
+  end
 
+  def delete(value, node=@root)
+    return nil if node.nil?
 
-
-
-
-
+    if value < node.data
+      node.left = delete(value, node.left)
+    elsif value > node.data
+      node.right = delete(value, node.right)
+    else
+      if node.left.nil? && node.right.nil?
+        return nil
+      elsif node.left.nil?
+        return node.right
+      elsif node.right.nil?
+        return node.left
+      else
+        successor = min_value_node(node.right) 
+        node.data = successor.data
+        node.right = delete(successor.data, node.right)
+      end
+    end
+    node
+  end
   
   def inorder(node = @root)
     return if node.nil?
@@ -103,9 +111,6 @@ end
 arr = [8, 4, 12]
 tree = Tree.new(arr)
 
-tree.insert(6)
-tree.insert(10)
-tree.insert(14)
-
-tree.pretty_print  # or tree.inorder
+tree.insert(1)
+tree.pretty_print
 
