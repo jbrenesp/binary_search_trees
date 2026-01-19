@@ -104,6 +104,26 @@ class Tree
       end
     end
   end
+
+  def level_order
+    return [] if root.nil?
+    queue = [root]
+    result = []
+    
+    while !queue.empty?
+      current = queue.shift
+      if block_given?
+        yield current
+      else
+        result << current.data
+      end
+
+      queue << current.left if current.left
+      queue << current.right if current.right
+    end
+    result unless block_given?
+  end
+
   
   
   def inorder(node = @root)
@@ -128,12 +148,14 @@ tree = Tree.new(arr)
 tree.insert(6)
 tree.insert(10)
 tree.insert(14)
+tree.insert(2)
+tree.insert(1)
+tree.insert(3)
+
 tree.pretty_print
 
-node = tree.find(10)
-puts node.data if node
+puts "Level-order without block:"
+p tree.level_order
 
-missing = tree.find(99)
-puts missing.nil?
 
 
