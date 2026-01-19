@@ -91,6 +91,20 @@ class Tree
     end
     node
   end
+
+  def find(value)
+    current = @root
+    while current
+      if value == current.data
+        return current
+      elsif value < current.data
+        current = current.left
+      else
+        current = current.right
+      end
+    end
+  end
+  
   
   def inorder(node = @root)
     return if node.nil?
@@ -111,6 +125,15 @@ end
 arr = [8, 4, 12]
 tree = Tree.new(arr)
 
-tree.insert(1)
+tree.insert(6)
+tree.insert(10)
+tree.insert(14)
 tree.pretty_print
+
+node = tree.find(10)
+puts node.data if node
+
+missing = tree.find(99)
+puts missing.nil?
+
 
