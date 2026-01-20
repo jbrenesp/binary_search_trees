@@ -139,6 +139,21 @@ class Tree
 
     result unless block
   end
+
+  def preorder(node = @root, result = [], &block)
+    return result if node.nil?
+    if block 
+      yield node
+    else 
+      result << node.data
+    end
+    preorder(node.left, result, &block)
+    preorder(node.right, result, &block)
+
+    result unless block
+  end
+
+
   
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -160,10 +175,9 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(3)
 
-puts "Inorder traversal with a block:"
-tree.inorder do |node|
-  puts node.data  # or do anything with node here
-end
+tree.preorder { |node| puts node.data }  # prints nodes in preorder
+p tree.preorder                           # returns array if no block
+
 
 
 
