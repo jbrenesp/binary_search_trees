@@ -153,6 +153,18 @@ class Tree
     result unless block
   end
 
+def post_order(node = @root, result = [], &block)
+  return result if node.nil?
+  post_order(node.left, result, &block)
+  post_order(node.right, result, &block)
+  if block 
+    yield node
+  else result << node.data
+  end
+  result unless block
+end
+
+
 
   
 
@@ -175,8 +187,11 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(3)
 
-tree.preorder { |node| puts node.data }  # prints nodes in preorder
-p tree.preorder                           # returns array if no block
+puts "Postorder traversal with a block:"
+tree.post_order { |node| puts node.data }
+
+# Or get array without a block
+p tree.post_order
 
 
 
