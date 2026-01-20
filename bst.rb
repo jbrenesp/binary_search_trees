@@ -164,6 +164,18 @@ def post_order(node = @root, result = [], &block)
   result unless block
 end
 
+def height(value)
+  node = find(value)
+  return nil if node.nil?
+  def helper(node)
+    return -1 if node.nil?
+    left_height = helper(node.left)
+    right_height = helper(node.right)
+    1 + [left_height, right_height].max
+  end
+  helper(node)
+end
+
 
 
   
@@ -187,11 +199,9 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(3)
 
-puts "Postorder traversal with a block:"
-tree.post_order { |node| puts node.data }
-
-# Or get array without a block
-p tree.post_order
+puts tree.height(4)  
+puts tree.height(1)  
+puts tree.height(8)  
 
 
 
