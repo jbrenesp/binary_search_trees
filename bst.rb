@@ -126,12 +126,20 @@ class Tree
 
   
   
-  def inorder(node = @root)
-    return if node.nil?
-    inorder(node.left)
-    print "#{node.data} "
-    inorder(node.right)
+  def inorder(node = @root, result = [], &block )
+    return result if node.nil?
+    inorder(node.left, result, &block)
+
+    if block
+      block.call(node)
+    else
+      result << node.data
+    end
+    inorder(node.right, result, &block)
+
+    result unless block
   end
+  
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -152,10 +160,10 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(3)
 
-tree.pretty_print
-
-puts "Level-order without block:"
-p tree.level_order
+puts "Inorder traversal with a block:"
+tree.inorder do |node|
+  puts node.data  # or do anything with node here
+end
 
 
 
