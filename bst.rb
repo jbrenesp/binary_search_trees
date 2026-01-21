@@ -164,16 +164,19 @@ def post_order(node = @root, result = [], &block)
   result unless block
 end
 
-def height(value)
-  node = find(value)
+def height(node_or_value)
+  return -1 if node_or_value.nil?
+
+  node = node_or_value.is_a?(Node) ? node_or_value : find(node_or_value)
   return nil if node.nil?
-  def helper(node)
-    return -1 if node.nil?
-    left_height = helper(node.left)
-    right_height = helper(node.right)
+
+  helper = ->(n) do
+    return -1 if n.nil?
+    left_height = helper.call(n.left)
+    right_height = helper.call(n.right)
     1 + [left_height, right_height].max
   end
-  helper(node)
+  helper.call(node)
 end
 
 def depth(value)
@@ -194,6 +197,18 @@ def depth(value)
     return nil
   end
 
+  def balanced?(node = @root)
+    return true if node.nil? 
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+    puts "Node #{node.data}: left_height=#{left_height}, right_height=#{right_height}"
+    
+    return false if (left_height - right_height).abs >1
+    
+    balanced?(node.left) && balanced?(node.right)
+  end
+  
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -212,10 +227,13 @@ tree.insert(10)
 tree.insert(14)
 tree.insert(2)
 tree.insert(1)
-tree.insert(3)
+tree.insert(0)
+tree.insert(-1)
 
-p tree.depth(99)  
-puts tree.pretty_print
+
+
+tree.pretty_print
+puts "is the tree balanced? #{tree.balanced?}"
 
 
 
