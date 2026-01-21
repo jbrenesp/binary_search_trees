@@ -176,9 +176,24 @@ def height(value)
   helper(node)
 end
 
+def depth(value)
+   current = @root
+   depth = 0
 
+    while current
+      if value == current.data
+        return depth
+      elsif value < current.data
+        current = current.left
+        depth += 1
+      else
+        current = current.right
+        depth += 1
+      end
+    end
+    return nil
+  end
 
-  
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -199,9 +214,8 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(3)
 
-puts tree.height(4)  
-puts tree.height(1)  
-puts tree.height(8)  
+p tree.depth(99)  
+puts tree.pretty_print
 
 
 
