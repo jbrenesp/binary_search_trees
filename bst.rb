@@ -208,7 +208,14 @@ def depth(value)
     
     balanced?(node.left) && balanced?(node.right)
   end
+
+  def rebalance
+    values = inorder
+    @root = build_tree(values)
+  end
+
   
+
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -230,10 +237,13 @@ tree.insert(1)
 tree.insert(0)
 tree.insert(-1)
 
-
-
 tree.pretty_print
-puts "is the tree balanced? #{tree.balanced?}"
+
+tree.rebalance
+tree.pretty_print
+tree.balanced?
+tree.inorder
+tree.pretty_print
 
 
 
